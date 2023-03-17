@@ -1,0 +1,105 @@
+
+#event_container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  #Events_form {
+    width: 70%;
+  }
+  
+  #Search_form {
+    flex-grow: 1;
+    width: 25%;
+    float: right;
+    margin-top: -532px;
+    margin-right: 20px;
+    
+  }
+
+  h1 {
+    text-transform: uppercase;
+    text-align: center;
+    background-color: rgb(135, 151, 222);
+    border-radius: 20px;
+    padding: 20px;
+  }
+  
+/* Add some animation to the form */
+form input,
+form textarea {
+    animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Add some animation to the table */
+table {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Add some animation to the button */
+button {
+    animation: pulse 2s infinite;
+    height: fit-content;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Make the table more visible */
+th {
+    background-color: #4a5568;
+    color: white;
+}
+
+td {
+    background-color: #f7fafc;
+}
+
+/* Add some style to the location container */
+.bg-gray-200 {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 70%;
+    height: auto;
+    margin: 20px;
+
+}
+
+/* Add some hover effect to the search button */
+.search-button:hover {
+    background-color: #2d3748;
+    color: white;
+}

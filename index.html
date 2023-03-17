@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Personal Event Planner</title>
+    <!-- Add Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+</head>
+
+<body>
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold my-8">Personal Event Planner</h1>
+        <!-- Event Form -->
+        <div class="event_container">
+            <form class="mb-8" id="Events_form">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="event-name">Event Name:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="event-name" type="text" placeholder="Enter event name" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="event-date">Event Date:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="event-date" type="date" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="event-time">Event Time:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="event-time" type="time" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="event-location">Event Location:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="event-location" type="text" placeholder="Enter event location" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="event-notes">Event Notes:</label>
+                    <textarea
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="event-notes" placeholder="Enter event notes"></textarea>
+                </div>
+                <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">Add Event</button>
+            </form>
+
+            <!-- Search Form -->
+            <form class="mb-8" id="Search_form">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="search-name">Search by Event Name:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="search-name" type="text" placeholder="Enter event name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="search-date">Search by Event Date:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="search-date" type="date">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="search-location">Search by Event
+                        Location:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="search-location" type="text" placeholder="Enter event location">
+                </div>
+                <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">Search</button>
+            </form>
+        </div>
+        <!-- Event List -->
+        <div class="mb-8">
+            <label class="block text-gray-700 font-bold mb-2">Event List:</label>
+            <!-- HTML code with table element -->
+            <table id="event-list" class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Event Name</th>
+                        <th class="px-4 py-2">Event Date</th>
+                        <th class="px-4 py-2">Event Time</th>
+                        <th class="px-4 py-2">Event Location</th>
+                        <th class="px-4 py-2">Event Notes</th>
+                        <th class="px-4 py-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- table rows will be dynamically generated by JavaScript code -->
+                </tbody>
+            </table>
+        </div>
+        <div class="bg-gray-200 rounded-lg p-4">
+            <h2 class="text-gray-800 font-bold text-lg mb-2">Location</h2>
+            <div id="map_container" class="h-64 rounded-lg overflow-hidden">
+                <!-- map container -->
+            </div>
+        </div>
+
+
+        <!-- Share Feature -->
+        <div>
+            <label class="block text-gray-700 font-bold mb-2">Share Event:</label>
+            <div class="flex items-center mt-4">
+                <label class="block text-gray-700 font-bold mr-4">Share via:</label>
+                <button onclick="shareEvent('facebook')"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
+                    type="button">
+                    <i class="fab fa-facebook"></i>
+                </button>
+                <button onclick="shareEvent('twitter')"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-4"
+                    type="button">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button onclick="shareEvent('email')"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="button">
+                    <i class="fas fa-envelope"></i>
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="app.js"></script>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js'></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+</body>
+
+</html>
